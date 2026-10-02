@@ -1,0 +1,23 @@
+# Dépendances
+node_modules/
+
+# Variables d'environnement
+.env
+.env.local
+
+# Flutter / Dart
+frontend/.dart_tool/
+frontend/build/
+frontend/.flutter-plugins
+frontend/.flutter-plugins-dependencies
+*.iml
+
+# Fichiers vides / locaux
+backend/create_admin.js
+
+# Éditeur / OS
+.vscode/
+.idea/
+*.log
+.DS_Store
+Thumbs.db

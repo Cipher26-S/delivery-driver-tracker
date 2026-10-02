@@ -1,0 +1,111 @@
+{
+  "info": {
+    "name": "Delivery Driver Tracker API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Inscription Chauffeur",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Jean Dupont\",\n  \"email\": \"jean@exemple.com\",\n  \"password\": \"motdepasse\",\n  \"role\": \"driver\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/auth/register",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "auth", "register"]
+        }
+      }
+    },
+    {
+      "name": "Connexion Chauffeur",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"jean@exemple.com\",\n  \"password\": \"motdepasse\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/auth/login",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "auth", "login"]
+        }
+      }
+    },
+    {
+      "name": "Créer une livraison (admin)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{admin_token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"orderId\": \"CMD123\",\n  \"customerName\": \"Alice Martin\",\n  \"address\": \"10 rue de Paris\",\n  \"driverId\": \"{{driver_id}}\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/deliveries",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "deliveries"]
+        }
+      }
+    },
+    {
+      "name": "Mise à jour du statut de livraison",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{driver_token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"in_transit\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/deliveries/{{delivery_id}}/status",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "deliveries", "{{delivery_id}}", "status"]
+        }
+      }
+    },
+    {
+      "name": "Enregistrer une position",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{driver_token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"driverId\": \"{{driver_id}}\",\n  \"coordinates\": {\n    \"type\": \"Point\",\n    \"coordinates\": [2.3522, 48.8566]\n  }\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/api/location",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["api", "location"]
+        }
+      }
+    }
+  ]
+}
