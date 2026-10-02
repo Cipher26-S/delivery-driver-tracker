@@ -45,50 +45,92 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  InputDecoration _field(String label, IconData icon) => InputDecoration(
+        labelText: label,
+        prefixIcon: Icon(icon),
+        filled: true,
+        fillColor: Colors.white,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+      );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Connexion')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                controller: emailController,
-                decoration: InputDecoration(labelText: 'Email'),
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value == null || value.isEmpty) return 'Email requis';
-                  if (!RegExp(r'^\S+@\S+\.\S+$').hasMatch(value)) return 'Email invalide';
-                  return null;
-                },
-                textInputAction: TextInputAction.next,
+      backgroundColor: Colors.indigo.shade50,
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 420),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    CircleAvatar(
+                      radius: 40,
+                      backgroundColor: Colors.indigo,
+                      child: const Icon(Icons.local_shipping, size: 40, color: Colors.white),
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'Delivery Driver Tracker',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Vos livraisons, votre position, en temps voulu.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.grey.shade700),
+                    ),
+                    const SizedBox(height: 32),
+                    const Text('Connexion', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                    const SizedBox(height: 12),
+                    TextFormField(
+                      controller: emailController,
+                      decoration: _field('Email', Icons.email_outlined),
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) return 'Email requis';
+                        if (!RegExp(r'^\S+@\S+\.\S+$').hasMatch(value)) return 'Email invalide';
+                        return null;
+                      },
+                      textInputAction: TextInputAction.next,
+                    ),
+                    const SizedBox(height: 12),
+                    TextFormField(
+                      controller: passwordController,
+                      decoration: _field('Mot de passe', Icons.lock_outline),
+                      obscureText: true,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) return 'Mot de passe requis';
+                        if (value.length < 6) return 'Au moins 6 caractères';
+                        return null;
+                      },
+                      textInputAction: TextInputAction.done,
+                      onFieldSubmitted: (_) => handleLogin(),
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: handleLogin,
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(double.infinity, 50),
+                        backgroundColor: Colors.indigo,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                      child: const Text('Se connecter'),
+                    ),
+                    if (error != null) ...[
+                      const SizedBox(height: 12),
+                      Text(error!, textAlign: TextAlign.center, style: const TextStyle(color: Colors.red)),
+                    ],
+                  ],
+                ),
               ),
-              TextFormField(
-                controller: passwordController,
-                decoration: InputDecoration(labelText: 'Mot de passe'),
-                obscureText: true,
-                validator: (value) {
-                  if (value == null || value.isEmpty) return 'Mot de passe requis';
-                  if (value.length < 6) return 'Au moins 6 caractères';
-                  return null;
-                },
-                textInputAction: TextInputAction.done,
-                onFieldSubmitted: (_) => handleLogin(),
-              ),
-              SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: handleLogin,
-                child: Text('Se connecter'),
-                style: ElevatedButton.styleFrom(minimumSize: Size(double.infinity, 48)),
-              ),
-              if (error != null) ...[
-                SizedBox(height: 12),
-                Text(error!, style: TextStyle(color: Colors.red)),
-              ],
-            ],
+            ),
           ),
         ),
       ),

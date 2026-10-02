@@ -15,12 +15,7 @@ class DeliveryDetailScreen extends StatefulWidget {
 
 class _DeliveryDetailScreenState extends State<DeliveryDetailScreen> {
   static const _statusFlow = ['pending', 'picked', 'in_transit', 'delivered'];
-  static const _statusLabels = {
-    'pending': 'En attente',
-    'picked': 'Récupérée',
-    'in_transit': 'En route',
-    'delivered': 'Livrée',
-  };
+  static const _statusLabels = Delivery.statusLabels;
 
   final _service = DeliveryService();
   late String _status;
@@ -89,6 +84,7 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen> {
       appBar: AppBar(
         title: const Text('Détail Livraison'),
         backgroundColor: Colors.indigo,
+        foregroundColor: Colors.white,
       ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),

@@ -37,6 +37,7 @@ class _DeliveriesScreenState extends State<DeliveriesScreen> {
       appBar: AppBar(
         title: Text('Mes Livraisons'),
         backgroundColor: Colors.indigo,
+        foregroundColor: Colors.white,
       ),
       body: FutureBuilder<List<Delivery>>(
         future: deliveriesFuture,
@@ -75,7 +76,7 @@ class _DeliveriesScreenState extends State<DeliveriesScreen> {
                     children: [
                       Text('Client: ${delivery.customerName}'),
                       Text('Adresse: ${delivery.address}'),
-                      Text('Statut: ${delivery.status}', style: TextStyle(color: statusColor(delivery.status))),
+                      Text('Statut : ${delivery.statusLabel}', style: TextStyle(color: statusColor(delivery.status))),
                     ],
                   ),
                   trailing: Icon(Icons.arrow_forward_ios, color: Colors.indigo),

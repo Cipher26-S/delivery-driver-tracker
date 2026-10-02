@@ -1,4 +1,11 @@
 class Delivery {
+  static const statusLabels = {
+    'pending': 'En attente',
+    'picked': 'Récupérée',
+    'in_transit': 'En route',
+    'delivered': 'Livrée',
+  };
+
   final String id;
   final String orderId;
   final String customerName;
@@ -16,4 +23,6 @@ class Delivery {
       status: json['status'],
     );
   }
+
+  String get statusLabel => statusLabels[status] ?? status;
 }

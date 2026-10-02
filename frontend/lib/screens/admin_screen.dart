@@ -68,6 +68,7 @@ class _AdminScreenState extends State<AdminScreen> {
       appBar: AppBar(
         title: Text('Administration'),
         backgroundColor: Colors.indigo,
+        foregroundColor: Colors.white,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
