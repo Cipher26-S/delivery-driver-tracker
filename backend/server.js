@@ -21,10 +21,7 @@ app.use('/api/location', locationRoutes);
 app.use('/api/admin', adminRoutes);
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => {
+mongoose.connect(process.env.MONGODB_URI).then(() => {
   console.log('MongoDB connecté');
 }).catch((err) => {
   console.error('Erreur MongoDB:', err);
@@ -33,8 +30,6 @@ mongoose.connect(process.env.MONGODB_URI, {
 app.get('/', (req, res) => {
   res.send('API Delivery Driver Tracker');
 });
-
-// ...existing code...
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

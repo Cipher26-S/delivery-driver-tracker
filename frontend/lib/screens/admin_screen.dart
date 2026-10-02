@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../config.dart';
 
 class AdminScreen extends StatefulWidget {
   final String token;
 
-  AdminScreen({required this.token});
+  const AdminScreen({super.key, required this.token});
 
   @override
-  _AdminScreenState createState() => _AdminScreenState();
+  State<AdminScreen> createState() => _AdminScreenState();
 }
 
 class _AdminScreenState extends State<AdminScreen> {
@@ -30,7 +31,7 @@ class _AdminScreenState extends State<AdminScreen> {
     });
 
     final response = await http.post(
-      Uri.parse('http://localhost:3000/api/auth/register'),
+      Uri.parse('$apiBaseUrl/auth/register'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${widget.token}',
@@ -43,6 +44,7 @@ class _AdminScreenState extends State<AdminScreen> {
       }),
     );
 
+    if (!mounted) return;
     if (response.statusCode == 201) {
       setState(() {
         _message = 'Chauffeur ajouté avec succès !';

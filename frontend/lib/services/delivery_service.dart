@@ -1,11 +1,12 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../config.dart';
 import '../models/delivery.dart';
 
 class DeliveryService {
   Future<List<Delivery>> fetchDeliveries(String driverId, String token) async {
     final response = await http.get(
-      Uri.parse('http://localhost:3000/api/deliveries/driver/$driverId'),
+      Uri.parse('$apiBaseUrl/deliveries/driver/$driverId'),
       headers: {'Authorization': 'Bearer $token'},
     );
     if (response.statusCode == 200) {
@@ -18,7 +19,7 @@ class DeliveryService {
 
   Future<bool> updateStatus(String deliveryId, String status, String token) async {
     final response = await http.put(
-      Uri.parse('http://localhost:3000/api/deliveries/$deliveryId/status'),
+      Uri.parse('$apiBaseUrl/deliveries/$deliveryId/status'),
       headers: {
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json',
@@ -28,15 +29,14 @@ class DeliveryService {
     return response.statusCode == 200;
   }
 
-  Future<bool> shareLocation(String driverId, double lat, double lng, String token) async {
+  Future<bool> shareLocation(double lat, double lng, String token) async {
     final response = await http.post(
-      Uri.parse('http://localhost:3000/api/location'),
+      Uri.parse('$apiBaseUrl/location'),
       headers: {
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json',
       },
       body: json.encode({
-        'driverId': driverId,
         'coordinates': {'type': 'Point', 'coordinates': [lng, lat]}
       }),
     );

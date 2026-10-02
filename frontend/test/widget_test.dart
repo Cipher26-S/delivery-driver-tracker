@@ -1,30 +1,35 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:delivery_driver_app/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets("L'application démarre sur l'écran de connexion", (WidgetTester tester) async {
+    await tester.pumpWidget(const DeliveryDriverApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    expect(find.text('Connexion'), findsOneWidget);
+    expect(find.text('Se connecter'), findsOneWidget);
+  });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
+  testWidgets('Un email invalide est refusé', (WidgetTester tester) async {
+    await tester.pumpWidget(const DeliveryDriverApp());
+
+    await tester.enterText(find.byType(TextFormField).at(0), 'pas-un-email');
+    await tester.enterText(find.byType(TextFormField).at(1), 'secret123');
+    await tester.tap(find.text('Se connecter'));
     await tester.pump();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(find.text('Email invalide'), findsOneWidget);
+  });
+
+  testWidgets('Un email valide passe la validation', (WidgetTester tester) async {
+    await tester.pumpWidget(const DeliveryDriverApp());
+
+    await tester.enterText(find.byType(TextFormField).at(0), 'chauffeur@exemple.com');
+    await tester.enterText(find.byType(TextFormField).at(1), 'secret123');
+    await tester.tap(find.text('Se connecter'));
+    await tester.pump();
+
+    expect(find.text('Email invalide'), findsNothing);
   });
 }

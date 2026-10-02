@@ -8,14 +8,15 @@ API Node.js/Express/MongoDB pour la gestion des livraisons, chauffeurs, localisa
    ```powershell
    npm install
    ```
-2. Lancer MongoDB (service ou `mongod`)
-3. Démarrer le serveur :
+2. Lancer MongoDB (service ou `mongod`) et copier `.env.example` en `.env`
+3. Créer le premier administrateur : `node create_admin.js "Admin" admin@exemple.com motdepasse`
+4. Démarrer le serveur :
    ```powershell
    npm start
    ```
 
 ## Endpoints principaux
-- `POST /api/auth/register` : Inscription utilisateur
+- `POST /api/auth/register` : Création d’un compte (admin)
 - `POST /api/auth/login` : Connexion utilisateur
 - `GET /api/deliveries/driver/:driverId` : Livraisons d’un chauffeur
 - `PUT /api/deliveries/:id/status` : Mise à jour du statut

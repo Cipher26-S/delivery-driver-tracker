@@ -2,13 +2,12 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const { adminMiddleware } = require('../utils/auth');
 
 const router = express.Router();
 
-// Inscription
-
-// Inscription avec validation
-router.post('/register', async (req, res) => {
+// Création d'un compte (réservée aux administrateurs)
+router.post('/register', adminMiddleware, async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
     if (!name || !email || !password || !role) {

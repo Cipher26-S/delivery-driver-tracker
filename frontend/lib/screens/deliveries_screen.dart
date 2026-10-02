@@ -6,7 +6,7 @@ import 'delivery_detail_screen.dart';
 class DeliveriesScreen extends StatefulWidget {
   final String driverId;
   final String token;
-  DeliveriesScreen({required this.driverId, required this.token});
+  const DeliveriesScreen({super.key, required this.driverId, required this.token});
 
   @override
   State<DeliveriesScreen> createState() => _DeliveriesScreenState();
@@ -79,13 +79,17 @@ class _DeliveriesScreenState extends State<DeliveriesScreen> {
                     ],
                   ),
                   trailing: Icon(Icons.arrow_forward_ios, color: Colors.indigo),
-                  onTap: () {
-                    Navigator.push(
+                  onTap: () async {
+                    await Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => DeliveryDetailScreen(delivery: delivery),
+                        builder: (context) => DeliveryDetailScreen(delivery: delivery, token: widget.token),
                       ),
                     );
+                    // Recharge la liste pour refléter un éventuel changement de statut
+                    setState(() {
+                      deliveriesFuture = DeliveryService().fetchDeliveries(widget.driverId, widget.token);
+                    });
                   },
                 ),
               );

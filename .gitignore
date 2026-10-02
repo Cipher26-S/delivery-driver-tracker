@@ -12,8 +12,6 @@ frontend/.flutter-plugins
 frontend/.flutter-plugins-dependencies
 *.iml
 
-# Fichiers vides / locaux
-backend/create_admin.js
 
 # Éditeur / OS
 .vscode/

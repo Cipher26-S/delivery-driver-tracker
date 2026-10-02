@@ -5,9 +5,14 @@ const { authMiddleware, adminMiddleware } = require('../utils/auth');
 
 const router = express.Router();
 
+const STATUSES = ['pending', 'picked', 'in_transit', 'delivered'];
+
 
 // Liste des livraisons assignées au chauffeur
 router.get('/driver/:driverId', authMiddleware, async (req, res) => {
+  if (req.user.role !== 'admin' && req.user.id !== req.params.driverId) {
+    return res.status(403).json({ error: 'Accès refusé' });
+  }
   try {
     const { status, from, to } = req.query;
     let query = { driverId: req.params.driverId };
@@ -28,7 +33,16 @@ router.get('/driver/:driverId', authMiddleware, async (req, res) => {
 router.put('/:id/status', authMiddleware, async (req, res) => {
   try {
     const { status } = req.body;
-    const delivery = await Delivery.findByIdAndUpdate(req.params.id, { status }, { new: true });
+    if (!STATUSES.includes(status)) {
+      return res.status(400).json({ error: 'Statut invalide.' });
+    }
+    const delivery = await Delivery.findById(req.params.id);
+    if (!delivery) return res.status(404).json({ error: 'Livraison introuvable' });
+    if (req.user.role !== 'admin' && delivery.driverId.toString() !== req.user.id) {
+      return res.status(403).json({ error: 'Accès refusé' });
+    }
+    delivery.status = status;
+    await delivery.save();
     res.json(delivery);
   } catch (err) {
     res.status(400).json({ error: err.message });
